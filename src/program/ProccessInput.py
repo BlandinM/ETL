@@ -4,10 +4,13 @@ from Extract.Extract import Extract
 
 class Process :
 
-   def __init__(self):
-      self.con = Conection()
-      self.databaseOLTP = 'AdventureWorksLT2022'
-      self.databaseOLAP = 'VENTASPROYECTO'
+   def __init__(self,conexion):
+    self.con = conexion
+    print("🔷 Base de datos ORIGEN (OLTP)")
+    self.databaseOLTP = self.seleccionarBaseDatos()
+    print("🔶 Base de datos DESTINO (OLAP)")
+    self.databaseOLAP = self.seleccionarBaseDatos()
+
 
    def printOptions(self):
       print("Ingrese el numero del metodo:\n ")
@@ -50,9 +53,10 @@ class Process :
             
                query = f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{campo}'"
                result = self.con.conect(self.databaseOLTP,query)
+               print(f"\n 📋 Columnas de la tabla '{campo}': \n")
                self.print(result)
 
-               cols = input("\n ingrese el numero de campo separado por coma")
+               cols = input("\n 🧩 Ingrese el numero de campo separado por coma: ")
                cols = cols.split(",")
                print(cols)
                colsName = ""
@@ -73,7 +77,7 @@ class Process :
 
                break  
             else:
-                print("\n Ingrese un numero en rango correcto \n ")
+                print("\n 🧩 Ingrese un numero en rango correcto \n ")
 
          except: 
            print("Ingrese un numero correcto  \n")
@@ -107,12 +111,12 @@ class Process :
             break
          
          except:
-            print("\nselecione una tabla correcta\n")   
+            print("\nselecione una tabla correcta: \n")   
       
       return table
    
    def printQuery(self):
-      print("\n Ingrese una consulta \n")
+      print("\n 🧩 Ingrese una consulta \n")
       query = str(input())
 
       tableOLAP = self.printTbalesOLAP()
@@ -122,16 +126,28 @@ class Process :
       print(query,tableOLAP)
 
 
+   def seleccionarBaseDatos(self, tipo=""):
+    query = "SELECT name FROM sys.databases"
+    bases = self.con.conect("master", query)
+
+    print(f"\n📚 Seleccione la base de datos {tipo}:\n")
+    self.print(bases)
+
+    while True:
+        try:
+            opcion = int(input("Ingrese el número de la base de datos: "))
+            if opcion in bases:
+                return bases[opcion]
+            else:
+                print("❌ Opción fuera de rango.")
+        except:
+            print("❌ Ingrese un número válido.")
+            return None
 
 
 
 
-
-
-
-
-      
-
+   
 
       
 
