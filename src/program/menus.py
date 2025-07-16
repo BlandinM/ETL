@@ -10,7 +10,8 @@ class Menu:
         
         try:
             
-            conexion_bd = ConectionBD()  # Solicita credenciales solo 1 vez
+            conexion_bd = ConectionBD() 
+            conexion_bd.getData()
             conexion = Conection(conexion_bd)
             print("🔵 Conexión a la base de datos establecida correctamente.")
         except Exception as e:

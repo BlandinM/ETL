@@ -18,4 +18,17 @@ class Conection:
         cursor.close()
         conexion.close()
         return values
+    
+
+    def getDataTables(self,database,query):
+
+        conexion = self.conexionBD.getConection(database)
+        if not conexion:
+            return None
+
+        cursor = conexion.cursor()
+        cursor.execute(query)
+        return cursor
+
+
   

@@ -1,25 +1,25 @@
 from Conection.ConectionBD import ConectionBD
+from Conection.Conection import Conection
 
-class Extract :
+class Extract : 
 
-    def __init__(self,database,query,tableOLAP):
+    def __init__(self,database,query,tableOLAP,conexion):
         self.queryOLTP = query
         self.tableOLAP = tableOLAP
-        self.database = database
-        self.conexion = ConectionBD()
+        self.databaseOLTP = database
+        self.conexion = conexion
 
     def getData(self):
+        print(self.databaseOLTP + self.queryOLTP)
         try:
-           con = self.conexion.getConection(self.database)
-           cursor = con.cursor()
-           cursor.execute(self.queryOLTP)
+           cursor = self.conexion.getDataTables(self.databaseOLTP,self.queryOLTP)
 
            for i in cursor.fetchall():
             print(i)
         
        
-        except:
-           print(self.queryOLTP)
+        except  Exception as e:
+           print(e)
 
       
 

@@ -62,15 +62,17 @@ class Process :
                colsName = ""
 
                for i in cols :
-                  colsName += result[int(i)] 
-                  if(int(i)<len(cols)):
+                  colsName +=result[int(i)]
+                  if(int(i)<len(cols) - 1):
                      colsName += ","
 
                queryOLTP = self.createQuery(campo,colsName)
+               print(queryOLTP + " query")
                tableOLAP = self.printTbalesOLAP()
-               print(colsName)
                
-               extract = Extract(self.databaseOLTP,queryOLTP,tableOLAP)
+               
+               extract = Extract(self.databaseOLTP,queryOLTP,tableOLAP,self.con)
+              
                extract.getData()
               
 
@@ -91,7 +93,7 @@ class Process :
 
    def createQuery(self,table,cols):
       
-      query = f"Select {cols} from {table} "
+      query = f"Select {cols} from SalesLT.{table} "
       return query
 
    
@@ -120,7 +122,7 @@ class Process :
       query = str(input())
 
       tableOLAP = self.printTbalesOLAP()
-      extract = Extract(self.databaseOLTP,query,tableOLAP)
+      extract = Extract(self.databaseOLTP,query,tableOLAP,self.con)
       extract.getData()
       
       print(query,tableOLAP)
