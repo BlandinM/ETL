@@ -1,28 +1,34 @@
 import pyodbc
 from Conection.ConectionBD import ConectionBD
 
-class Conection :
+class Conection:
+    def __init__(self, conexionBD):
+        self.conexionBD = conexionBD
 
-    def conect(self,database,q):
+    def conect(self, database, query):
+        conexion = self.conexionBD.getConection(database)
+        if not conexion:
+            return {}
 
-        conexioBD = ConectionBD()
-        conexion = conexioBD.getConection(database)    
-     
         cursor = conexion.cursor()
-        cursor.execute(q)
-        
-        valuesTables = {}
-        cont = 0
+        cursor.execute(query)
 
-        for row in cursor.fetchall():
-            table = str(row[0])
-            valuesTables[cont] = table
-            cont += 1    
-       
-      
+        values = {i: str(row[0]) for i, row in enumerate(cursor.fetchall())}
+
         cursor.close()
         conexion.close()
-        return valuesTables
+        return values
+    
+
+    def getDataTables(self,database,query):
+
+        conexion = self.conexionBD.getConection(database)
+        if not conexion:
+            return None
+
+        cursor = conexion.cursor()
+        cursor.execute(query)
+        return cursor
 
 
   
