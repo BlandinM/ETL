@@ -15,7 +15,7 @@ class ConectionBD:
     def getConection(self, database):
       
         try:
-            print(database + " 1")
+         
             driver = '{ODBC Driver 17 for SQL Server}'
             connection_str = (
                 f'DRIVER={driver};'

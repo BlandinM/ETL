@@ -15,7 +15,7 @@ class Process :
    def printOptions(self):
       print("Ingrese el numero del metodo:\n ")
       print("1. Tabla ")
-      print("2. Consulta")
+      print("2. Consulta ")
       
       while True:
 
