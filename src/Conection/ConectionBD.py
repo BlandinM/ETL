@@ -13,7 +13,7 @@ class ConectionBD:
         self.passwd = input("🔐 Contraseña: ")
         self.server = input("🖥️ Servidor: ")
 
-    def getConection(self, database):
+    def getConection(self, database):Testing
        try:
            driver = 'ODBC+Driver+17+for+SQL+Server'
            connection_str = (
@@ -28,3 +28,4 @@ class ConectionBD:
          print(f"❌ Error al conectar: {e}")
          return None
 
+     
