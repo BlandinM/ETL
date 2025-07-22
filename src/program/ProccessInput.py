@@ -60,18 +60,20 @@ class Process :
                cols = cols.split(",")
                print(cols)
                colsName = ""
+               count = 0
 
                for i in cols :
                   colsName +=result[int(i)]
-                  if(int(i)<len(cols) - 1):
+                  if(count<len(cols)-1):
                      colsName += ","
+                  count += 1
 
                queryOLTP = self.createQuery(campo,colsName)
                print(queryOLTP + " query")
                tableOLAP = self.printTbalesOLAP()
                
                
-               extract = Extract(self.databaseOLTP,queryOLTP,tableOLAP,self.con)
+               extract = Extract(self.databaseOLTP,self.databaseOLAP,queryOLTP,tableOLAP,self.con)
               
                extract.getData()
               

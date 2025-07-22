@@ -1,4 +1,5 @@
-import pyodbc
+from sqlalchemy import create_engine
+import sqlalchemy
 
 class ConectionBD:
     def __init__(self):
@@ -12,20 +13,19 @@ class ConectionBD:
         self.passwd = input("🔐 Contraseña: ")
         self.server = input("🖥️ Servidor: ")
 
-    def getConection(self, database):
-      
-        try:
-         
-            driver = '{ODBC Driver 17 for SQL Server}'
-            connection_str = (
-                f'DRIVER={driver};'
-                f'SERVER={self.server};'
-                f'DATABASE={database};'
-                f'UID={self.user};PWD={self.passwd};'
-                f'Encrypt=no;TrustServerCertificate=yes'
-            )
-            conexion = pyodbc.connect(connection_str)
-            return conexion
-        except pyodbc.Error as e:
-            print(f"❌ Error al conectar: {e}")
-            return None
+    def getConection(self, database):Testing
+       try:
+           driver = 'ODBC+Driver+17+for+SQL+Server'
+           connection_str = (
+            f"mssql+pyodbc://{self.user}:{self.passwd}@{self.server}/{database}"
+            f"?driver={driver}"
+            "&Encrypt=no&TrustServerCertificate=yes"
+          )
+           engine = create_engine(connection_str)
+           print(connection_str)
+           return engine
+       except Exception as e:
+         print(f"❌ Error al conectar: {e}")
+         return None
+
+     
