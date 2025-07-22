@@ -1,4 +1,6 @@
-import pyodbc
+from sqlalchemy import text
+import pandas as pd
+
 from Conection.ConectionBD import ConectionBD
 
 class Conection:
@@ -9,26 +11,27 @@ class Conection:
         conexion = self.conexionBD.getConection(database)
         if not conexion:
             return {}
+        con = conexion.connect()
+        result = con.execute(text(query)) 
 
-        cursor = conexion.cursor()
-        cursor.execute(query)
 
-        values = {i: str(row[0]) for i, row in enumerate(cursor.fetchall())}
+        values = {i: str(row[0]) for i, row in enumerate(result.fetchall())}
 
-        cursor.close()
-        conexion.close()
+       
         return values
     
 
     def getDataTables(self,database,query):
 
-        conexion = self.conexionBD.getConection(database)
-        if not conexion:
+        engine = self.conexionBD.getConection(database)
+        if not engine:
             return None
+        
+        conexion = engine.connect()
+        result = pd.read_sql(query,conexion)
+        
+        return result
 
-        cursor = conexion.cursor()
-        cursor.execute(query)
-        return cursor
-
-
+    def getengine(self,database):
+        return self.conexionBD.getConection(database)
   
