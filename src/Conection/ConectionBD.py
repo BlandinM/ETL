@@ -46,3 +46,4 @@ class ConectionBD:
         except Exception as e:
             print(f"❌ Error al conectar: {e}")
             return None
+

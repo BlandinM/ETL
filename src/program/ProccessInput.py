@@ -21,6 +21,7 @@ class Process:
         print("🔶 Base de datos DESTINO (OLAP)")
         self.databaseOLAP = self.seleccionarBaseDatos()
 
+
     def printOptions(self):
         """
         Muestra las opciones para seleccionar la fuente de datos: tabla o consulta,
@@ -41,6 +42,7 @@ class Process:
                     break
             except:
                 print("\n ingrese una opción valida")
+
 
     def printOptionsTables(self):
         """
