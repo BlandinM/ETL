@@ -3,13 +3,20 @@ from Conection.Conection import Conection
 from program.ProccessInput import Process
 
 class Menu:
+    """
+    Clase que maneja el menú principal del sistema ETL.
+    """
+
     @staticmethod
     def principal_menu():
+        """
+        Muestra el menú principal, gestiona la conexión a la base de datos,
+        y permite iniciar el proceso ETL o salir del programa.
+        """
         print("=== Sistema ETL del Grupo 4 ===")
         print("🟢 Por favor inicie sesión:")
         
         try:
-            
             conexion_bd = ConectionBD() 
             conexion_bd.getData()
             conexion = Conection(conexion_bd)
