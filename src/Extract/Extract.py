@@ -1,5 +1,6 @@
 from Conection.ConectionBD import ConectionBD
 from Conection.Conection import Conection
+from Transform.Transform import Transform
 
 class Extract : 
 
@@ -17,8 +18,11 @@ class Extract :
            conexion =self.conexion.getengine(self.dbOLAP).connect()
            
            df = self.conexion.getDataTables(self.databaseOLTP,self.queryOLTP)
+           print(len(df.columns.to_list()))
+           transform = Transform()
+           transform.processData(df,self.conexion,self.dbOLAP,self.tableOLAP)
+        
           
-           df.to_sql(name = self.tableOLAP,con=conexion,if_exists= "append", index=False)
            
        
         except  Exception as e:
