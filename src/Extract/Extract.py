@@ -1,6 +1,7 @@
 from Conection.ConectionBD import ConectionBD
 from Conection.Conection import Conection
 from Transform.Transform import Transform
+import pandas as pd
 
 class Extract : 
 
@@ -27,8 +28,3 @@ class Extract :
        
         except  Exception as e:
            print(e)
-
-      
-
-
-

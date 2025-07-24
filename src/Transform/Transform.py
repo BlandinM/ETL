@@ -27,7 +27,6 @@ class Transform:
 
         engine = conexion.getengine(bdOLAP).connect()
         df = pd.read_sql( f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table}'", engine)
-
         colsOLAP = len(df['COLUMN_NAME'].tolist())
         colsOLTP = len(data.columns.to_list())
 
