@@ -14,10 +14,16 @@ class Load:
             conexion (sqlalchemy.Engine): Objeto de conexión a la base de datos.
         """
         try:
-            print(data)
+            if data.empty:
+                print(f"⚠️  No hay nuevos registros para insertar en la tabla '{table}'.")
+                return
+
+            print(f"\n🔄 Migrando datos a la tabla '{table}'...")
 
             con = conexion.getengine(bdOLAP).connect()
-            
             data.to_sql(table, con, if_exists="append", index=False)
+
+            print(f"✅ Se insertaron {len(data)} nuevos registros en 🗂️ '{table}'\n")
+        
         except Exception as e:
-            print(e)
+            print(f"❌ Error al insertar datos en la tabla '{table}': {e}")

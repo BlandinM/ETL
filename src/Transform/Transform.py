@@ -26,19 +26,23 @@ class Transform:
         data = data.drop_duplicates()
 
         engine = conexion.getengine(bdOLAP).connect()
-        df = pd.read_sql( f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table}'", engine)
+        df = pd.read_sql(f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table}'", engine)
         colsOLAP = len(df['COLUMN_NAME'].tolist())
         colsOLTP = len(data.columns.to_list())
 
         if colsOLAP == colsOLTP:
             data.columns = df['COLUMN_NAME'].to_list()
-            columna_pk = df['COLUMN_NAME'].iloc[0] 
-            data[columna_pk] = pd.to_datetime(data[columna_pk])
+            columna_pk = df['COLUMN_NAME'].iloc[0]
+
             valores_existentes = pd.read_sql(f"SELECT {columna_pk} FROM {table}", engine)
-            valores_existentes[columna_pk] = pd.to_datetime(valores_existentes[columna_pk])
+
+            # Solo convierte la PK a datetime si es la tabla tblTiempo
+            if table == 'tblTiempo':
+                data[columna_pk] = pd.to_datetime(data[columna_pk])
+                valores_existentes[columna_pk] = pd.to_datetime(valores_existentes[columna_pk])
 
             values = data[columna_pk].isin(valores_existentes[columna_pk])
-            newdata = data[values == False]
+            newdata = data[~values]
             print(newdata)
 
             load = Load()
@@ -49,7 +53,7 @@ class Transform:
 
     def concatText(self, dfValues):
         """
-        Une 2 columnas  en una sola columna.
+        Une 2 columnas en una sola columna.
 
         Args:
             dfValues (pd.DataFrame): Datos a transformar.
@@ -70,7 +74,7 @@ class Transform:
             data (pd.DataFrame): Datos con columna tipo date.
 
         Returns:
-            pd.DataFrame: Datos con las nuevas columnas  añadidas.
+            pd.DataFrame: Datos con las nuevas columnas añadidas.
         """
         date = pd.to_datetime(data['OrderDate'])
         data['year'] = date.dt.year
