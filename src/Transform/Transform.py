@@ -32,8 +32,17 @@ class Transform:
 
         if colsOLAP == colsOLTP:
             data.columns = df['COLUMN_NAME'].to_list()
+            columna_pk = df['COLUMN_NAME'].iloc[0] 
+            data[columna_pk] = pd.to_datetime(data[columna_pk])
+            valores_existentes = pd.read_sql(f"SELECT {columna_pk} FROM {table}", engine)
+            valores_existentes[columna_pk] = pd.to_datetime(valores_existentes[columna_pk])
+
+            values = data[columna_pk].isin(valores_existentes[columna_pk])
+            newdata = data[values == False]
+            print(newdata)
+
             load = Load()
-            load.insertData(data, bdOLAP, table, conexion)
+            load.insertData(newdata, bdOLAP, table, conexion)
         else:
             print(f"Está tratando de migrar más columnas de las permitidas en la tabla {table}")
             print(data)
