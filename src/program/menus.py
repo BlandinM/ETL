@@ -1,6 +1,6 @@
 from Conection.ConectionBD import ConectionBD
 from Conection.Conection import Conection
-from program.ProccessInput import Process
+from program.Controller import  Controller
 
 class Menu:
     """
@@ -31,8 +31,8 @@ class Menu:
             choice = input("Seleccione una opción: ")
 
             if choice == '1':
-                proceso = Process(conexion)
-                proceso.printOptions()
+                proceso = Controller(conexion)
+                proceso.controllerProcces()
                 break
             elif choice == '2':
                 print("👋 Saliendo...")

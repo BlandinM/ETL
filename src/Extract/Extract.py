@@ -24,6 +24,7 @@ class Extract:
         self.databaseOLTP = database
         self.conexion = conexion
         self.dbOLAP = databaseOLAP
+        
 
     def getData(self):
         """
@@ -32,12 +33,13 @@ class Extract:
         
         """
         try:
+            
             conexion = self.conexion.getengine(self.dbOLAP).connect()
 
             df = self.conexion.getDataTables(self.databaseOLTP, self.queryOLTP)
-            print(len(df.columns.to_list()))
-            transform = Transform()
-            transform.processData(df, self.conexion, self.dbOLAP, self.tableOLAP)
+           
+            return df
 
         except Exception as e:
+            return None
             print(e)

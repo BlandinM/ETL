@@ -36,17 +36,15 @@ class Transform:
 
             valores_existentes = pd.read_sql(f"SELECT {columna_pk} FROM {table}", engine)
 
-            # Solo convierte la PK a datetime si es la tabla tblTiempo
+            
             if table == 'tblTiempo':
                 data[columna_pk] = pd.to_datetime(data[columna_pk])
                 valores_existentes[columna_pk] = pd.to_datetime(valores_existentes[columna_pk])
 
             values = data[columna_pk].isin(valores_existentes[columna_pk])
             newdata = data[~values]
-            print(newdata)
-
-            load = Load()
-            load.insertData(newdata, bdOLAP, table, conexion)
+    
+            return newdata
         else:
             print(f"Está tratando de migrar más columnas de las permitidas en la tabla {table}")
             print(data)
