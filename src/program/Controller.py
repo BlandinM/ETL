@@ -28,7 +28,7 @@ class Controller:
         process = Process(self.con)
         option = process.printOptions()
 
-        if option == 1:
+        if (option == 1):
             print(option)
             dictData = process.printOptionsTables()
         else:
@@ -39,10 +39,10 @@ class Controller:
         query = dictData["query"]
         table = dictData["tableOLAP"]
 
-       
+        
         extract = Extract(db_oltp, db_olap, query, table, self.con)
         df = extract.getData()
-        print(df, "222")
+        
 
         
         if (df is not None):
@@ -50,22 +50,24 @@ class Controller:
             transform = Transform()
             dataTransform = transform.processData(df, self.con, db_olap, table)
 
-            if dataTransform is not None:
+            if (dataTransform is not None):
                 
                 load = Load()
                 insert = load.insertData(dataTransform, db_olap, table, self.con)
 
-                if insert is True:
+                if( insert is True):
                     print("Insertado con éxito")
                     print("Desea seguir ")
                     print("1 si ")
                     print("2 no ")
-                    op = int(input("Ingrese una opción: "))
-                    if op == 1:
+                    op = str(input("Ingrese una opción: "))
+                    if (op == '1' or op.upper() == 'no'):
                         self.controllerProcces()
                     else:
                         print("Saliendo...")
                 else:
-                    print("Falló la inserción")
+                    print("\nFalló la tranformación\n")
+                    self.controllerProcces()
         else:
-            print("Falló la extracción")
+            print("\nFalló la extracción\n")
+            self.controllerProcces()

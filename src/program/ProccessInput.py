@@ -22,6 +22,7 @@ class Process:
         self.databaseOLTP = self.seleccionarBaseDatos()
         print("🔶 Base de datos DESTINO (OLAP)")
         self.databaseOLAP = self.seleccionarBaseDatos()
+        self.columns = ""
 
     def printOptions(self):
         """
@@ -86,6 +87,7 @@ class Process:
                         if count < len(cols) - 1:
                             colsName += ","
                         count += 1
+                    self.columns = colsName
 
                     queryOLTP = self.createQuery(campo, colsName)
                     tableOLAP = self.printTbalesOLAP()

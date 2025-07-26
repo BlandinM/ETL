@@ -41,5 +41,6 @@ class Extract:
             return df
 
         except Exception as e:
-            return None
             print(e)
+            return None
+            

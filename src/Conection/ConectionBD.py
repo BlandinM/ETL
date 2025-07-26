@@ -41,7 +41,7 @@ class ConectionBD:
                 "&Encrypt=no&TrustServerCertificate=yes"
             )
             engine = create_engine(connection_str)
-            print(connection_str)
+          
             return engine
         except Exception as e:
             print(f"❌ Error al conectar: {e}")
