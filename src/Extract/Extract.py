@@ -1,6 +1,8 @@
 from Conection.ConectionBD import ConectionBD
 from Conection.Conection import Conection
 from Transform.Transform import Transform
+from Conection.Exceptions import Exceptions
+from sqlalchemy.exc import SQLAlchemyError
 
 class Extract:
     """
@@ -40,7 +42,8 @@ class Extract:
            
             return df
 
-        except Exception as e:
-            print(e)
+        except SQLAlchemyError as e:
+            Exceptions.handle_sql_error(e)
             return None
+           
             

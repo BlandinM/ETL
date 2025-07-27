@@ -1,3 +1,5 @@
+from Conection.Exceptions import Exceptions
+from sqlalchemy.exc import SQLAlchemyError
 class Load:
 
     def __init__(self):
@@ -25,7 +27,7 @@ class Load:
 
             print(f"✅ Se insertaron {len(data)} nuevos registros en  '{table}'\n")
             return True
-        
-        except Exception as e:
-            return False
+        except SQLAlchemyError as e:
+            Exceptions.handle_sql_error(e)
             print(f"❌ Error al insertar datos en la tabla '{table}': {e}")
+            return False

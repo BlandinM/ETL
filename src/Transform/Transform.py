@@ -41,7 +41,9 @@ class Transform:
     
             return newdata
         else:
-            print(f"Está tratando de migrar más columnas de las permitidas en la tabla {table}")
+            print("❌ Error: El número de columnas no coincide entre la tabla OLTP y la OLAP.")
+            print(f"Tabla OLTP tiene {colsOLTP} columnas, mientras que la tabla OLAP tiene {colsOLAP} columnas.")
+            print("❌ No se puede realizar la transformación.")
             return None
 
 
