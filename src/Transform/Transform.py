@@ -26,7 +26,7 @@ class Transform:
         colsOLAP = len(df['COLUMN_NAME'].tolist())
         colsOLTP = len(data.columns.to_list())
         print(colsOLTP)
-        if (colsOLAP == colsOLTP):
+        if (colsOLAP == colsOLTP ):
             data.columns = df['COLUMN_NAME'].to_list()
             columna_pk = df['COLUMN_NAME'].iloc[0]
 
@@ -40,6 +40,14 @@ class Transform:
             newdata = data[~values]
     
             return newdata
+        elif(table == 'Hechos_ventas'):
+            df = df.iloc[1:,:]
+            colOlapName = df['COLUMN_NAME'].to_list()
+            print(colOlapName)
+            data.columns = colOlapName
+            return data 
+            
+
         else:
             print("❌ Error: El número de columnas no coincide entre la tabla OLTP y la OLAP.")
             print(f"Tabla OLTP tiene {colsOLTP} columnas, mientras que la tabla OLAP tiene {colsOLAP} columnas.")
@@ -57,6 +65,7 @@ class Transform:
             print("2. Guardar como minúsculas")
             print("3. Tratar campo tipo fecha")
             print("4. Unir columnas")
+            print("5. Avanzar")
 
             op = input("Ingrese el número de la opción: ").strip()
 
@@ -68,6 +77,8 @@ class Transform:
                 col2 = input("Ingrese la segunda columna a fusionar: ").strip()
             elif op == '3':
                 col = input("Ingrese el nombre del campo fecha: ").strip()
+            elif op == '5':
+                return data 
             else:
                 cols = input("Ingrese el/los nombre(s) de las columnas separados por coma: ").strip().split(",")
 

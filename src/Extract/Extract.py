@@ -37,6 +37,7 @@ class Extract:
         try:
             
             conexion = self.conexion.getengine(self.dbOLAP).connect()
+            print(self.queryOLTP)
 
             df = self.conexion.getDataTables(self.databaseOLTP, self.queryOLTP)
            

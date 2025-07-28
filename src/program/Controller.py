@@ -61,7 +61,7 @@ class Controller:
                     print("1 si ")
                     print("2 no ")
                     op = str(input("Ingrese una opción: "))
-                    if (op == '1' or op.upper() == 'no'):
+                    if (op == '1' or op.lower() == 'si'):
                         self.controllerProcces()
                     else:
                         print("Saliendo...")
