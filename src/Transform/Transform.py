@@ -41,8 +41,21 @@ class Transform:
     
             return newdata
         elif(table == 'Hechos_ventas'):
-            Load().insertData(data, bdOLAP, table, conexion)
-            return data
+           
+               
+          df = df.iloc[1:,:]
+          colOlapName = df['COLUMN_NAME'].to_list()
+          print(colOlapName)
+          data.columns = colOlapName
+
+
+          existing_data = pd.read_sql(f"SELECT {','.join(colOlapName)} FROM {table}", engine)
+
+          merged = data.merge(existing_data.drop_duplicates(), on=colOlapName, how='left', indicator=True)
+          new_data = merged[merged['_merge'] == 'left_only'].drop(columns=['_merge'])
+
+          return new_data
+
             
 
         else:
@@ -127,13 +140,14 @@ class Transform:
             pd.DataFrame: Datos con las nuevas columnas añadidas.
         """
         date = pd.to_datetime(data[col])
-        print(date)
+        
         data['year'] = date.dt.year
         data['mes'] = date.dt.month_name()
         data['semana'] = date.dt.isocalendar().week
         data['diaSemana'] = date.dt.day_name()
         data['trimestre'] = date.dt.quarter
         data['cuatrimestre'] = ((date.dt.month - 1) // 4) + 1
+        print(data)
         return data
 
     def convertTextUpper(self, data, cols):
