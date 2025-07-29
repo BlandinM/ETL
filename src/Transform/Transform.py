@@ -41,11 +41,8 @@ class Transform:
     
             return newdata
         elif(table == 'Hechos_ventas'):
-            df = df.iloc[1:,:]
-            colOlapName = df['COLUMN_NAME'].to_list()
-            print(colOlapName)
-            data.columns = colOlapName
-            return data 
+            Load().insertData(data, bdOLAP, table, conexion)
+            return data
             
 
         else:

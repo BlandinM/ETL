@@ -1,5 +1,6 @@
 from Conection.Exceptions import Exceptions
 from sqlalchemy.exc import SQLAlchemyError
+import pandas as pd
 class Load:
 
     def __init__(self):
@@ -23,10 +24,24 @@ class Load:
             print(f"\n🔄 Migrando datos a la tabla '{table}'...")
 
             con = conexion.getengine(bdOLAP).connect()
+            if table == 'Hechos_ventas':
+               
+                columna_pk = data.columns[0]
+                print("Columnas en el DataFrame:", data.columns.tolist())
+                valores_existentes = pd.read_sql(f"SELECT {columna_pk} FROM {table}", con)
+                newdata = data[~data[columna_pk].isin(valores_existentes[columna_pk])]
+                
+                if newdata.empty:
+                    print(f"⚠️  No hay nuevos registros para insertar en la tabla '{table}'.")
+                    return True
+
+                data = newdata
+
             data.to_sql(table, con, if_exists="append", index=False)
 
             print(f"✅ Se insertaron {len(data)} nuevos registros en  '{table}'\n")
             return True
+
         except SQLAlchemyError as e:
             Exceptions.handle_sql_error(e)
             print(f"❌ Error al insertar datos en la tabla '{table}': {e}")
